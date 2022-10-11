@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+   <robot name="motor">
+
+   <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+
+      <link name="base_link">
+        <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.15"/>
+          <geometry>
+            <box  size="0.03 0.02 0.3"/>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="arm">
+        <visual>
+          <origin rpy="0 0 0" xyz= "0 0 0"/>
+          <material name ="blue"/>
+          <geometry>
+            <box  size="0.03 0.02 0.2"/>
+          </geometry>
+        </visual>
+      </link>
+
+      <joint name="J0" type="revolute">
+       <parent link="base_link"/>
+       <child link="arm"/>
+       <origin xyz="0 0.02 0.37" rpy="0 0 0"/>
+       <limit effort="100.0" velocity="100000" lower="-100000.0" upper="100000.0"/>
+      </joint>
+
+      <transmission name="transmission_base_link1">
+       <type>transmission_interface/SimpleTransmission</type>
+       <joint name="J0">
+         <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+       </joint>
+       <actuator name="delta_servo">
+         <hardwareInterface>PositionJointInterface</hardwareInterface>
+         <mechanicalReduction>1</mechanicalReduction>
+       </actuator>
+     </transmission>
+      
+   </robot>
+

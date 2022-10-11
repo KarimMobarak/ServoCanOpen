@@ -1,0 +1,16 @@
+joint_names: [J0]
+ 
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+joint_group_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+    - J0
+  required_drive_mode: 1
+
+J0_position_controller:
+  type: position_controllers/JointPositionController
+  joint: J0
+  required_drive_mode: 1

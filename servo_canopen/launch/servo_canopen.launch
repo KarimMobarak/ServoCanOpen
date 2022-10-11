@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+   <launch>
+     <group ns="/Delta">
+      <arg name="model" default="$(find servo_canopen)/urdf/Motor.urdf"/> 
+       <!-- Load the URDF into ROS parameter server -->
+       <param name="robot_description" command="cat $(arg model)"/>
+
+       <node name="canopen_motor" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true" >
+         <rosparam command="load" file="$(find servo_canopen)/config/can.yaml" />
+         <rosparam command="load" file="$(find servo_canopen)/config/controller.yaml" />
+         <rosparam command="load" file="$(find servo_canopen)/config/node.yaml" />
+       </node>
+   
+       <!-- load the controllers -->
+       <node name="controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false"
+         output="screen" args="spawn 
+         /Delta/canopen_motor/joint_state_controller
+         /Delta/canopen_motor/J0_position_controller
+         /Delta/canopen_motor/joint_group_position_controller"/>
+     </group>
+   </launch>
